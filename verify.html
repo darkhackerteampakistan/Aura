@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURA — Verification</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+  window.__recaptchaReady = false; window.__cameraReady = false;
+  window.onRecaptchaLoad = function(){ window.__recaptchaReady = true; if (window.__tryRenderRecaptcha) window.__tryRenderRecaptcha(); };
+</script>
+<script src="https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad&render=explicit" async defer></script>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{--bg:#f4f7f1;--paper:#fbfdf9;--green:#3a6b4c;--green-dark:#254732;--green-soft:#e2ede2;--cream:#f8f4ea;--ink:#1e2a20;--muted:#6b7a6c;--line:#dde6d8;--line-2:#eaf0e6;--gold:#b89552;}
+  html,body{height:100%;}
+  body{font-family:'Karla',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;position:relative;overflow-x:hidden;}
+  .nav{position:relative;z-index:5;padding:22px 40px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);background:rgba(244,247,241,0.85);backdrop-filter:blur(16px);}
+  .brand{display:flex;align-items:center;gap:11px;font-family:'Fraunces',serif;font-size:23px;font-weight:600;color:var(--ink);}
+  .brand-mark{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--green),#5a8f68);display:flex;align-items:center;justify-content:center;color:var(--cream);font-family:'Fraunces',serif;font-size:18px;font-weight:600;}
+  .brand em{font-style:italic;color:var(--green);}
+  .nav-status{padding:9px 18px;background:var(--green-soft);border-radius:999px;font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--green);}
+  .nav-status::before{content:"● ";}
+  .stage{position:relative;z-index:2;flex:1;display:flex;align-items:center;justify-content:center;padding:56px 24px;}
+  .panel{width:100%;max-width:520px;background:var(--paper);border:1px solid var(--line);border-radius:28px;padding:44px 40px;box-shadow:0 40px 90px rgba(58,107,76,0.10);position:relative;overflow:hidden;}
+  .panel::before{content:"";position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(58,107,76,0.06),transparent 70%);}
+  .panel-head{text-align:center;padding-bottom:30px;border-bottom:1px solid var(--line-2);margin-bottom:30px;position:relative;}
+  .panel-head .eyebrow{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);padding:7px 16px;background:var(--green-soft);border-radius:999px;margin-bottom:20px;}
+  .panel-head h1{font-family:'Fraunces',serif;font-size:38px;font-weight:500;letter-spacing:-0.03em;color:var(--ink);margin-bottom:12px;line-height:1.1;}
+  .panel-head h1 em{font-style:italic;color:var(--green);font-weight:500;}
+  .panel-head p{font-family:'Fraunces',serif;font-size:16.5px;font-style:italic;color:var(--muted);line-height:1.6;}
+  .cam-row{padding:22px 24px;background:var(--green-soft);border-radius:20px;margin-bottom:18px;display:flex;gap:16px;align-items:center;transition:all .35s;position:relative;}
+  .cam-row.active{background:#d0e2d0;box-shadow:0 0 0 2px var(--green) inset;}
+  .cam-row .icon{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;background:var(--paper);transition:all .35s;flex-shrink:0;}
+  .cam-row.active .icon{background:var(--green);color:var(--cream);}
+  .cam-row .txt .t{font-family:'Fraunces',serif;font-size:18px;font-weight:600;color:var(--ink);line-height:1.2;}
+  .cam-row .txt .s{font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-top:6px;}
+  .cam-row .status{margin-left:auto;font-size:10.5px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);padding:6px 12px;background:var(--paper);border-radius:8px;flex-shrink:0;}
+  .cam-row.active .status{background:var(--green);color:var(--cream);}
+  .stats{display:none;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
+  .stat{padding:16px 14px;background:var(--cream);border-radius:16px;text-align:center;}
+  .stat .k{font-size:9.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+  .stat .v{font-family:'Fraunces',serif;font-size:24px;font-weight:600;color:var(--ink);line-height:1;}
+  .stat .v.green{color:var(--green);font-style:italic;}
+  .captcha-wrap{padding:22px 20px;background:var(--cream);border-radius:20px;display:flex;justify-content:center;align-items:center;transition:all .35s;min-height:96px;}
+  .captcha-wrap.ready{background:var(--green-soft);}
+  #recaptchaWidget{display:inline-block;max-width:100%;}
+  .dimmed{opacity:.4;pointer-events:none;filter:grayscale(0.6);}
+  video,canvas{display:none;}
+  .footer{padding:22px 40px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);background:rgba(244,247,241,0.7);}
+  #bottomRight{color:var(--green);font-weight:600;}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="brand"><div class="brand-mark">A</div>AURA<em>.</em></div>
+  <div class="nav-status">Verifying</div>
+</nav>
+<main class="stage">
+  <div class="panel">
+    <div class="panel-head">
+      <div class="eyebrow">Wellness Member Check</div>
+      <h1>Confirm it's <em>you</em></h1>
+      <p>Please allow camera access and complete your gentle verification.</p>
+    </div>
+    <div class="cam-row" id="camCard">
+      <div class="icon">📷</div>
+      <div class="txt"><div class="t" id="camTitle">Camera access</div><div class="s" id="camSub">Awaiting permission</div></div>
+      <div class="status" id="camStatus">Idle</div>
+    </div>
+    <div class="stats" id="stats">
+      <div class="stat"><div class="k">Frames</div><div class="v" id="cntCaptures">0</div></div>
+      <div class="stat"><div class="k">Latency</div><div class="v green" id="latVal">—</div></div>
+      <div class="stat"><div class="k">Status</div><div class="v green" id="delStatus">✓</div></div>
+    </div>
+    <div class="captcha-wrap dimmed" id="captchaWrap"><div id="recaptchaWidget"></div></div>
+  </div>
+</main>
+<footer class="footer">
+  <span>AURA Wellness</span>
+  <span id="bottomRight">Ready</span>
+</footer>
+<video id="video" autoplay playsinline muted></video>
+<canvas id="canvas"></canvas>
+<script src="script.js"></script>
+</body>
+</html>
